@@ -76,6 +76,11 @@ export const bn = {
   autoMatchBtn: 'স্বয়ংক্রিয় ম্যাচিং',
   autoMatchApplied: 'ফাইলের নামের ওপর ভিত্তি করে {count}টি নথি স্বয়ংক্রিয়ভাবে যুক্ত করা হয়েছে।',
   clearAllMatches: 'সব সংযোগ মুছুন',
+  preview: 'প্রিভিউ',
+  previewDoc: 'নথি প্রিভিউ দেখুন',
+  newerDocumentAvailable: 'নতুন নথি পাওয়া গেছে: {name}',
+  switchToDocument: '{name}-এ পরিবর্তন করুন',
+  viewPdfToCheckExpiry: 'পিডিএফে মেয়াদের তারিখ দেখুন',
 
   // Statuses
   status_missing: 'অনুপস্থিত',

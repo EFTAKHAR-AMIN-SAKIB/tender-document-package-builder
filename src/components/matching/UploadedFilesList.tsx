@@ -1,5 +1,5 @@
 import React from 'react';
-import { FileText, Trash2, Copy, AlertCircle, CheckCircle2, ShieldAlert } from 'lucide-react';
+import { FileText, Trash2, Copy, AlertCircle, CheckCircle2, ShieldAlert, Eye } from 'lucide-react';
 import { UploadedFile, Language, Requirement } from '../../types';
 import { getTranslation } from '../../i18n';
 import { formatFileSize, localizeNumber } from '../../lib/utils/format';
@@ -11,6 +11,7 @@ interface UploadedFilesListProps {
   matches: Record<string, { fileId: string | null; expiryDate: string | null }>;
   onRemoveFile: (fileId: string) => void;
   onClearAllFiles: () => void;
+  onPreviewFile?: (file: UploadedFile) => void;
 }
 
 export const UploadedFilesList: React.FC<UploadedFilesListProps> = ({
@@ -20,6 +21,7 @@ export const UploadedFilesList: React.FC<UploadedFilesListProps> = ({
   matches,
   onRemoveFile,
   onClearAllFiles,
+  onPreviewFile,
 }) => {
   if (files.length === 0) {
     return null;
@@ -120,16 +122,31 @@ export const UploadedFilesList: React.FC<UploadedFilesListProps> = ({
                   </div>
                 </div>
 
-                {/* Remove button */}
-                <button
-                  type="button"
-                  onClick={() => onRemoveFile(file.id)}
-                  className="p-1 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
-                  title={getTranslation(language, 'removeFile')}
-                  aria-label={`Remove file ${file.name}`}
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
+                {/* Action buttons */}
+                <div className="flex items-center gap-1">
+                  {onPreviewFile && file.isValidPdf && (
+                    <button
+                      type="button"
+                      onClick={() => onPreviewFile(file)}
+                      className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                      title={getTranslation(language, 'previewDoc')}
+                      aria-label={`Preview file ${file.name}`}
+                    >
+                      <Eye className="w-4 h-4" />
+                    </button>
+                  )}
+
+                  {/* Remove button */}
+                  <button
+                    type="button"
+                    onClick={() => onRemoveFile(file.id)}
+                    className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                    title={getTranslation(language, 'removeFile')}
+                    aria-label={`Remove file ${file.name}`}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
 
               {/* Status / Duplicate warning banner */}

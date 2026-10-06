@@ -76,6 +76,11 @@ export const en = {
   autoMatchBtn: 'Smart Auto-Match',
   autoMatchApplied: 'Auto-matched {count} document(s) based on file names.',
   clearAllMatches: 'Clear All Matches',
+  preview: 'Preview',
+  previewDoc: 'Preview Document',
+  newerDocumentAvailable: 'Newer document detected: {name}',
+  switchToDocument: 'Switch to {name}',
+  viewPdfToCheckExpiry: 'Check validity in PDF',
 
   // Statuses
   status_missing: 'Missing',

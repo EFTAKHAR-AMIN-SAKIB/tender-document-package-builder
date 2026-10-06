@@ -10,6 +10,7 @@ import { GenerationBlockersAlert } from './components/status/GenerationBlockersA
 import { GeneratePackageSection } from './components/package/GeneratePackageSection';
 import { PackageSuccessModal } from './components/package/PackageSuccessModal';
 import { HelpModal } from './components/common/HelpModal';
+import { PdfPreviewModal } from './components/common/PdfPreviewModal';
 import { ToastContainer, type ToastMessage } from './components/common/Toast';
 
 import type { RequirementsData, UploadedFile, Language, DocumentMatch } from './types';
@@ -35,6 +36,8 @@ export function App() {
   const [packageResult, setPackageResult] = useState<GeneratePackageResult | null>(null);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
+  const [previewFile, setPreviewFile] = useState<UploadedFile | null>(null);
+  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
   const [focusedRequirementId, setFocusedRequirementId] = useState<string | null>(null);
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
@@ -98,8 +101,36 @@ export function App() {
   // Upload handler
   const handleAddFiles = (newFiles: UploadedFile[]) => {
     setUploadedFiles((prev) => {
-      const merged = [...prev, ...newFiles];
-      return updateFileDuplicates(merged);
+      const merged = updateFileDuplicates([...prev, ...newFiles]);
+
+      // If requirements are loaded, automatically trigger auto-matching on remaining requirements
+      if (requirementsData) {
+        setTimeout(() => {
+          setMatches((currentMatches) => {
+            const suggestions = findAutoMatches(
+              requirementsData.requirements,
+              merged,
+              currentMatches,
+              requirementsData.tender.submission_deadline
+            );
+
+            if (suggestions.length > 0) {
+              const updated = { ...currentMatches };
+              suggestions.forEach((s) => {
+                const cur = updated[s.requirementId] || { fileId: null, expiryDate: null };
+                if (!cur.fileId) {
+                  updated[s.requirementId] = { ...cur, fileId: s.fileId };
+                }
+              });
+              addToast('success', getTranslation(language, 'autoMatchApplied', { count: suggestions.length }));
+              return updated;
+            }
+            return currentMatches;
+          });
+        }, 100);
+      }
+
+      return merged;
     });
     addToast('success', `${newFiles.length} PDF file(s) added successfully.`);
   };
@@ -195,7 +226,12 @@ export function App() {
   // Auto-match suggestions
   const handleAutoMatch = () => {
     if (!requirementsData) return;
-    const suggestions = findAutoMatches(requirementsData.requirements, uploadedFiles, matches);
+    const suggestions = findAutoMatches(
+      requirementsData.requirements,
+      uploadedFiles,
+      matches,
+      requirementsData.tender.submission_deadline
+    );
 
     if (suggestions.length === 0) {
       addToast('info', 'No obvious matching file names detected for remaining requirements.');
@@ -421,6 +457,10 @@ export function App() {
               matches={matches}
               onRemoveFile={handleRemoveFile}
               onClearAllFiles={handleClearAllFiles}
+              onPreviewFile={(file) => {
+                setPreviewFile(file);
+                setIsPreviewModalOpen(true);
+              }}
             />
 
             {/* Blocking Issues Alert (if any blocking status exists) */}
@@ -442,6 +482,10 @@ export function App() {
               onAutoMatch={handleAutoMatch}
               onClearAllMatches={handleClearAllMatches}
               focusedRequirementId={focusedRequirementId}
+              onPreviewFile={(file) => {
+                setPreviewFile(file);
+                setIsPreviewModalOpen(true);
+              }}
             />
 
             {/* Final Package Generation CTA */}
@@ -481,6 +525,17 @@ export function App() {
       <HelpModal
         isOpen={isHelpModalOpen}
         onClose={() => setIsHelpModalOpen(false)}
+        language={language}
+      />
+
+      {/* In-App PDF Preview Modal */}
+      <PdfPreviewModal
+        file={previewFile}
+        isOpen={isPreviewModalOpen}
+        onClose={() => {
+          setIsPreviewModalOpen(false);
+          setPreviewFile(null);
+        }}
         language={language}
       />
 

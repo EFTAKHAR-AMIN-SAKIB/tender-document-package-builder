@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, X, Calendar, FileText, AlertCircle, Check } from 'lucide-react';
+import { Sparkles, X, Calendar, FileText, AlertCircle, Check, Eye, ArrowRightLeft } from 'lucide-react';
 import { Requirement, UploadedFile, Language, DocumentStatus } from '../../types';
 import { getTranslation } from '../../i18n';
 import { getDocumentStatus, getDocumentStatusInfo } from '../../lib/validation/status';
@@ -17,6 +17,7 @@ interface DocumentMatchingTableProps {
   onAutoMatch: () => void;
   onClearAllMatches: () => void;
   focusedRequirementId?: string | null;
+  onPreviewFile?: (file: UploadedFile) => void;
 }
 
 export const DocumentMatchingTable: React.FC<DocumentMatchingTableProps> = ({
@@ -30,6 +31,7 @@ export const DocumentMatchingTable: React.FC<DocumentMatchingTableProps> = ({
   onAutoMatch,
   onClearAllMatches,
   focusedRequirementId,
+  onPreviewFile,
 }) => {
   // Map of fileId -> requirementId currently assigned
   const assignedFileMap = new Map<string, string>();
@@ -48,6 +50,25 @@ export const DocumentMatchingTable: React.FC<DocumentMatchingTableProps> = ({
 
   const fileLookup = new Map<string, UploadedFile>();
   uploadedFiles.forEach((f) => fileLookup.set(f.id, f));
+
+  // Check if a newer version of the assigned file is available in the uploaded list
+  const getNewerFileVersion = (currentFile: UploadedFile): UploadedFile | null => {
+    const yearMatch = currentFile.name.match(/(?:^|[^0-9])(20\d{2})(?:[^0-9]|$)/);
+    if (!yearMatch) return null;
+    const currentYear = parseInt(yearMatch[1], 10);
+
+    for (const f of uploadedFiles) {
+      if (f.id === currentFile.id || !f.isValidPdf || f.isDuplicate) continue;
+      const fYearMatch = f.name.match(/(?:^|[^0-9])(20\d{2})(?:[^0-9]|$)/);
+      if (fYearMatch) {
+        const fYear = parseInt(fYearMatch[1], 10);
+        if (fYear > currentYear) {
+          return f;
+        }
+      }
+    }
+    return null;
+  };
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-8">
@@ -206,29 +227,65 @@ export const DocumentMatchingTable: React.FC<DocumentMatchingTableProps> = ({
                       </select>
 
                       {matchedFile && (
-                        <button
-                          type="button"
-                          onClick={() => onMatchChange(req.id, null)}
-                          className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
-                          title={getTranslation(language, 'unassignFile')}
-                          aria-label={`Unassign file for ${docTitle}`}
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
+                        <div className="flex items-center gap-1">
+                          {onPreviewFile && (
+                            <button
+                              type="button"
+                              onClick={() => onPreviewFile(matchedFile)}
+                              className="p-1.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                              title={getTranslation(language, 'previewDoc')}
+                              aria-label={`Preview ${matchedFile.name}`}
+                            >
+                              <Eye className="w-4 h-4" />
+                            </button>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => onMatchChange(req.id, null)}
+                            className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                            title={getTranslation(language, 'unassignFile')}
+                            aria-label={`Unassign file for ${docTitle}`}
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
                       )}
                     </div>
 
                     {matchedFile && (
-                      <div className="flex items-center gap-1.5 mt-1 text-[11px] text-slate-500">
-                        <FileText className="w-3 h-3 text-emerald-600" />
-                        <span>
-                          {matchedFile.pages} {getTranslation(language, 'pages')}
-                        </span>
-                        {matchedFile.isDuplicate && (
-                          <span className="text-amber-700 font-semibold ml-1">
-                            (Duplicate file)
+                      <div className="space-y-1 mt-1">
+                        <div className="flex items-center gap-1.5 text-[11px] text-slate-500">
+                          <FileText className="w-3 h-3 text-emerald-600" />
+                          <span>
+                            {matchedFile.pages} {getTranslation(language, 'pages')}
                           </span>
-                        )}
+                          {matchedFile.isDuplicate && (
+                            <span className="text-amber-700 font-semibold ml-1">
+                              (Duplicate file)
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Newer Version Alert / Switcher */}
+                        {(() => {
+                          const newer = getNewerFileVersion(matchedFile);
+                          if (!newer) return null;
+                          return (
+                            <div className="p-1.5 rounded-md bg-amber-50 border border-amber-200 flex items-center justify-between text-[11px] gap-2">
+                              <span className="text-amber-900 font-medium truncate" title={newer.name}>
+                                {getTranslation(language, 'newerDocumentAvailable', { name: newer.name })}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => onMatchChange(req.id, newer.id)}
+                                className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-amber-600 hover:bg-amber-700 text-white font-semibold text-[10px] flex-shrink-0 transition-colors"
+                              >
+                                <ArrowRightLeft className="w-3 h-3" />
+                                {language === 'bn' ? 'পরিবর্তন করুন' : 'Switch'}
+                              </button>
+                            </div>
+                          );
+                        })()}
                       </div>
                     )}
                   </td>
@@ -252,11 +309,24 @@ export const DocumentMatchingTable: React.FC<DocumentMatchingTableProps> = ({
                             aria-label={`Expiry date for ${docTitle}`}
                           />
                         </div>
-                        <p className="text-[10px] text-slate-500 mt-0.5">
-                          {getTranslation(language, 'expiryDeadlineNotice', {
-                            date: submissionDeadline,
-                          })}
-                        </p>
+                        <div className="flex items-center justify-between gap-1 mt-1">
+                          <p className="text-[10px] text-slate-500">
+                            {getTranslation(language, 'expiryDeadlineNotice', {
+                              date: submissionDeadline,
+                            })}
+                          </p>
+                          {onPreviewFile && (
+                            <button
+                              type="button"
+                              onClick={() => onPreviewFile(matchedFile)}
+                              className="inline-flex items-center gap-1 text-[10px] font-semibold text-blue-600 hover:text-blue-800 hover:underline flex-shrink-0"
+                              title="Open preview to read validity date"
+                            >
+                              <Eye className="w-3 h-3" />
+                              {getTranslation(language, 'preview')}
+                            </button>
+                          )}
+                        </div>
                       </div>
                     ) : req.has_expiry && !matchedFile ? (
                       <span className="text-xs text-slate-400 italic">
