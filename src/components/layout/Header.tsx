@@ -1,5 +1,6 @@
 import React from 'react';
-import { ShieldCheck, FileCheck, Globe, HelpCircle } from 'lucide-react';
+import { ShieldCheck, Globe, HelpCircle } from 'lucide-react';
+import tenderPackLogo from '../../assets/logo.png';
 import { Language } from '../../types';
 import { getTranslation } from '../../i18n';
 
@@ -16,18 +17,25 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   return (
     <header className="bg-slate-900 text-white shadow-md border-b border-slate-800 sticky top-0 z-30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col sm:flex-row items-center justify-between gap-4">
         {/* Brand & Title */}
         <div className="flex items-center gap-3 text-left w-full sm:w-auto">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center shadow-inner flex-shrink-0">
-            <FileCheck className="w-6 h-6 text-white" />
-          </div>
+          <img
+            src={tenderPackLogo}
+            alt="TenderPack Logo"
+            className="w-10 h-10 object-contain rounded-xl bg-white p-0.5 shadow-md border border-slate-700/60 flex-shrink-0"
+          />
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-lg sm:text-xl font-bold tracking-tight text-white m-0">
+              <span className="text-lg sm:text-xl font-extrabold tracking-tight text-white flex items-center">
+                <span className="text-blue-400">Tender</span>
+                <span className="text-white">Pack</span>
+              </span>
+              <span className="hidden sm:inline text-xs text-slate-500 font-normal">|</span>
+              <h1 className="text-xs sm:text-sm font-medium text-slate-300 m-0 hidden sm:inline">
                 {getTranslation(language, 'appName')}
               </h1>
-              <span className="hidden md:inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+              <span className="hidden md:inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 ml-1">
                 <ShieldCheck className="w-3 h-3" />
                 Browser Only
               </span>

@@ -4,6 +4,7 @@ import { RequirementsData, Language } from '../../types';
 import { getTranslation } from '../../i18n';
 import { parseAndValidateRequirements } from '../../lib/validation/requirements';
 import { sampleRequirementsJson1, sampleRequirementsJson2 } from '../../sampleData/sampleRequirements';
+import tenderPackLogo from '../../assets/logo.png';
 
 interface RequirementsLoaderProps {
   language: Language;
@@ -67,8 +68,12 @@ export const RequirementsLoader: React.FC<RequirementsLoaderProps> = ({
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8 max-w-3xl mx-auto my-8">
       <div className="text-center max-w-xl mx-auto mb-6">
-        <div className="inline-flex p-3 rounded-2xl bg-blue-50 text-blue-600 mb-3">
-          <FileJson className="w-8 h-8" />
+        <div className="flex justify-center mb-3">
+          <img
+            src={tenderPackLogo}
+            alt="TenderPack Logo"
+            className="w-16 h-16 object-contain rounded-2xl shadow-sm border border-slate-100 bg-white p-1"
+          />
         </div>
         <h2 className="text-xl sm:text-2xl font-bold text-slate-900">
           {getTranslation(language, 'loadRequirementsTitle')}

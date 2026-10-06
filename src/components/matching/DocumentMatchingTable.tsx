@@ -327,6 +327,25 @@ export const DocumentMatchingTable: React.FC<DocumentMatchingTableProps> = ({
                             </button>
                           )}
                         </div>
+
+                        {status === 'expired' && (
+                          <div className="mt-1 text-[11px] text-rose-800 bg-rose-50 border border-rose-200 rounded-md p-1.5 flex items-center justify-between gap-1">
+                            <span>
+                              {language === 'bn'
+                                ? `মেয়াদোত্তীর্ণ! প্রবেশকৃত তারিখ (${match.expiryDate}) জমার শেষ তারিখের (${submissionDeadline}) পূর্বে।`
+                                : `Expired! Entered date (${match.expiryDate}) is before deadline (${submissionDeadline}).`}
+                            </span>
+                            {onPreviewFile && (
+                              <button
+                                type="button"
+                                onClick={() => onPreviewFile(matchedFile)}
+                                className="font-semibold underline text-rose-700 hover:text-rose-900 flex-shrink-0 ml-1"
+                              >
+                                {language === 'bn' ? 'নথি দেখুন' : 'Check PDF'}
+                              </button>
+                            )}
+                          </div>
+                        )}
                       </div>
                     ) : req.has_expiry && !matchedFile ? (
                       <span className="text-xs text-slate-400 italic">
