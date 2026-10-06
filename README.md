@@ -2,6 +2,7 @@
 
 > Official Submission for the **AI DevFest Hackathon** — Frontend Category  
 > 🌐 **Live Demo**: [https://tender-pack.vercel.app](https://tender-pack.vercel.app) *(Mirror: [tenderpack-app.vercel.app](https://tenderpack-app.vercel.app))*  
+> 📜 **AI Engineering Directives**: [PROMPTS.md](./PROMPTS.md)  
 > **Author**: Eftakhar Amin Sakib ([eftakhar.x.sakib@gmail.com](mailto:eftakhar.x.sakib@gmail.com))  
 > **License**: [MIT](./LICENSE)
 
