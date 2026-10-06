@@ -1,0 +1,59 @@
+{
+  "tender": {
+    "tender_id": "T-2026-0417",
+    "title": "Supply of IT Equipment",
+    "procuring_entity": "Example Directorate",
+    "bidder": "Example Company Ltd.",
+    "submission_deadline": "2026-10-20"
+  },
+  "requirements": [
+    {
+      "id": "R01",
+      "order": 1,
+      "title_en": "Trade License",
+      "title_bn": "হালনাগাদ ট্রেড লাইসেন্স",
+      "mandatory": true,
+      "has_expiry": true
+    },
+    {
+      "id": "R02",
+      "order": 2,
+      "title_en": "Tax Identification Number (TIN) Certificate",
+      "title_bn": "টিআইএন (TIN) সার্টিফিকেট ও রিটার্ন দাখিলের প্রমাণক",
+      "mandatory": true,
+      "has_expiry": false
+    },
+    {
+      "id": "R03",
+      "order": 3,
+      "title_en": "VAT Registration Certificate (BIN)",
+      "title_bn": "মূল্য সংযোজন কর (মূসক/VAT) নিবন্ধন সনদ",
+      "mandatory": true,
+      "has_expiry": false
+    },
+    {
+      "id": "R04",
+      "order": 4,
+      "title_en": "Bank Solvency Certificate",
+      "title_bn": "ব্যাংক স্বচ্ছলতা সনদপত্র",
+      "mandatory": true,
+      "has_expiry": true
+    },
+    {
+      "id": "R05",
+      "order": 5,
+      "title_en": "Manufacturer Authorization Letter (MAF)",
+      "title_bn": "প্রস্তুতকারকের অনুমোদনপত্র (MAF)",
+      "mandatory": false,
+      "has_expiry": true
+    },
+    {
+      "id": "R06",
+      "order": 6,
+      "title_en": "Similar Experience Completion Certificate",
+      "title_bn": "সমজাতীয় কাজের অভিজ্ঞতা ও সন্তোষজনক সমাপনী সনদ",
+      "mandatory": false,
+      "has_expiry": false
+    }
+  ]
+}

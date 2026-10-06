@@ -1,0 +1,143 @@
+export const sampleRequirementsJson1 = JSON.stringify(
+  {
+    tender: {
+      tender_id: 'T-2026-0417',
+      title: 'Supply of IT Equipment',
+      procuring_entity: 'Example Directorate',
+      bidder: 'Example Company Ltd.',
+      submission_deadline: '2026-10-20',
+    },
+    requirements: [
+      {
+        id: 'R01',
+        order: 1,
+        title_en: 'Trade License',
+        title_bn: 'হালনাগাদ ট্রেড লাইসেন্স',
+        mandatory: true,
+        has_expiry: true,
+      },
+      {
+        id: 'R02',
+        order: 2,
+        title_en: 'Tax Identification Number (TIN) Certificate',
+        title_bn: 'টিআইএন (TIN) সার্টিফিকেট ও রিটার্ন দাখিলের প্রমাণক',
+        mandatory: true,
+        has_expiry: false,
+      },
+      {
+        id: 'R03',
+        order: 3,
+        title_en: 'VAT Registration Certificate (BIN)',
+        title_bn: 'মূল্য সংযোজন কর (মূসক/VAT) নিবন্ধন সনদ',
+        mandatory: true,
+        has_expiry: false,
+      },
+      {
+        id: 'R04',
+        order: 4,
+        title_en: 'Bank Solvency Certificate',
+        title_bn: 'ব্যাংক স্বচ্ছলতা সনদপত্র',
+        mandatory: true,
+        has_expiry: true,
+      },
+      {
+        id: 'R05',
+        order: 5,
+        title_en: 'Manufacturer Authorization Letter (MAF)',
+        title_bn: 'প্রস্তুতকারকের অনুমোদনপত্র (MAF)',
+        mandatory: false,
+        has_expiry: true,
+      },
+      {
+        id: 'R06',
+        order: 6,
+        title_en: 'Similar Experience Completion Certificate',
+        title_bn: 'সমজাতীয় কাজের অভিজ্ঞতা ও সন্তোষজনক সমাপনী সনদ',
+        mandatory: false,
+        has_expiry: false,
+      },
+    ],
+  },
+  null,
+  2
+);
+
+export const sampleRequirementsJson2 = JSON.stringify(
+  {
+    tender: {
+      tender_id: 'T-2026-0892',
+      title: 'Construction and Rehabilitation of Regional Center',
+      procuring_entity: 'Public Works Department (PWD)',
+      bidder: 'Apex Infrastructure & Engineering Ltd.',
+      submission_deadline: '2026-11-15',
+    },
+    requirements: [
+      {
+        id: 'R01',
+        order: 1,
+        title_en: 'Trade License (Updated)',
+        title_bn: 'হালনাগাদ ট্রেড লাইসেন্স',
+        mandatory: true,
+        has_expiry: true,
+      },
+      {
+        id: 'R02',
+        order: 2,
+        title_en: 'e-TIN Certificate & Tax Assessment',
+        title_bn: 'ই-টিআইএন সনদ ও কর নির্ধারণী বিবরণী',
+        mandatory: true,
+        has_expiry: false,
+      },
+      {
+        id: 'R03',
+        order: 3,
+        title_en: '13-digit VAT Registration Certificate',
+        title_bn: '১৩-সংখ্যার মূসক নিবন্ধন সনদ',
+        mandatory: true,
+        has_expiry: false,
+      },
+      {
+        id: 'R04',
+        order: 4,
+        title_en: 'Bank Solvency & Credit Commitment',
+        title_bn: 'ব্যাংক স্বচ্ছলতা ও ঋণ অঙ্গীকারপত্র',
+        mandatory: true,
+        has_expiry: true,
+      },
+      {
+        id: 'R05',
+        order: 5,
+        title_en: 'Audited Financial Statements (Last 3 Years)',
+        title_bn: 'নিরীক্ষিত আর্থিক বিবরণী (বিগত ৩ বছর)',
+        mandatory: true,
+        has_expiry: false,
+      },
+      {
+        id: 'R06',
+        order: 6,
+        title_en: 'Key Personnel CVs and Certifications',
+        title_bn: 'মূল কারিগরি জনবলের জীবনবৃত্তান্ত ও সনদ',
+        mandatory: true,
+        has_expiry: false,
+      },
+      {
+        id: 'R07',
+        order: 7,
+        title_en: 'Equipment Ownership & Lease Agreements',
+        title_bn: 'যন্ত্রপাতি মালিকানা ও ইজারা চুক্তিপত্র',
+        mandatory: false,
+        has_expiry: true,
+      },
+      {
+        id: 'R08',
+        order: 8,
+        title_en: 'ISO 9001:2015 Quality Management Certificate',
+        title_bn: 'আইএসও ৯০০১:২০১৫ মান ব্যবস্থাপনা সনদ',
+        mandatory: false,
+        has_expiry: true,
+      },
+    ],
+  },
+  null,
+  2
+);
