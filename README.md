@@ -1,7 +1,7 @@
 # TenderPack — Tender Document Package Builder
 
 > Official Submission for the **AI DevFest Hackathon** — Frontend Category  
-> 🌐 **Live Demo (Vercel)**: [https://tender-document-package-builder-phi.vercel.app](https://tender-document-package-builder-phi.vercel.app)  
+> 🌐 **Live Demo**: [https://tender-pack.vercel.app](https://tender-pack.vercel.app) *(Mirror: [tenderpack-app.vercel.app](https://tenderpack-app.vercel.app))*  
 > **Author**: Eftakhar Amin Sakib ([eftakhar.x.sakib@gmail.com](mailto:eftakhar.x.sakib@gmail.com))  
 > **License**: [MIT](./LICENSE)
 
